@@ -29,10 +29,11 @@ class Player extends Sprite {
     }
 
     @Override
-    void display() {
-        fill(200, 0, 200);
-        ellipse(pos.x, pos.y, size.x, size.y);
-    }
+void display() {
+    fill(200, 0, 200);
+    rect(pos.x, pos.y, size.x, size.y);
+}
+
 
     @Override
     void handleCollision() {
