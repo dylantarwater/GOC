@@ -1,6 +1,7 @@
 class Player extends Sprite {
     boolean left, right, up, down;
-    
+    boolean isFiring = false;
+
     Player(float x, float y) {
         // super refers to the parent
         // ... I use it here as a constructor
@@ -41,7 +42,7 @@ void display() {
     }
 
     void keyUp() {
-        switch(key) { // key is a global value
+        switch(key) {
             case 'a':
             case 'A': left = false; break;
             case 's':
@@ -50,10 +51,16 @@ void display() {
             case 'D': right = false; break;
             case 'w':
             case 'W': up = false; break;
+            case ' ':
+            case 'f': 
+                isFiring = false; // Unset the flag when space bar is released
+                break;
         }
     }
+
+
     void keyDown() {
-        switch(key) { // key is a global value
+        switch(key) {
             case 'a':
             case 'A': left = true; break;
             case 's':
@@ -63,12 +70,18 @@ void display() {
             case 'w':
             case 'W': up = true; break;
             case ' ':
-            case 'f': fire(); break;
+            case 'f': 
+                isFiring = true; // Set the flag when space bar is pressed
+                break;
         }
     }
 
+
+
     void fire() {
+    if (isFiring) {
         PVector aim = new PVector(0, -10); // up
         _SM.spawn(new Bullet(pos.x, pos.y, aim, team));
     }
 }
+
