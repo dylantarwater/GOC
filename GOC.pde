@@ -13,9 +13,9 @@ void draw() {
 }
 
 void keyPressed() {
-    _SM.player.keyDown();
+    _SM.player.keyPressed();
 }
 
 void keyReleased() {
-    _SM.player.keyUp();
+    _SM.player.keyReleased();
 }
