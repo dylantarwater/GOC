@@ -1,9 +1,10 @@
 class Player extends Sprite {
     boolean left, right, up, down;
-    boolean isFiring = false;
-
+    
     Player(float x, float y) {
-        super(x, y, 40, 40);
+        // super refers to the parent
+        // ... I use it here as a constructor
+        super(x, y, 40, 40); // in this case, Sprite
         team = 1;
     }
 
@@ -14,34 +15,44 @@ class Player extends Sprite {
         if (right) vel.add(new PVector(speed, 0));
         if (up)    vel.add(new PVector(0, -speed));
         if (down)  vel.add(new PVector(0, speed));
-
-        // Update position by velocity
+        // update the position by velocity
         pos.add(vel);
 
-        // Fix bounds
+        //fix bounds
         if(pos.x < 0 + size.x/2) pos.x = size.x/2;
         if(pos.x > width - size.x/2) pos.x = width - size.x/2;
         if(pos.y < 0 + size.y/2) pos.y = size.y/2;
         if(pos.y > height - size.y/2) pos.y = height-size.y/2;
 
-        // Always try to decelerate
+        // always try to decelerate
         vel.mult(0.9);
     }
 
     @Override
     void display() {
         fill(200, 0, 200);
-        rect(pos.x, pos.y, size.x, size.y);
+        ellipse(pos.x, pos.y, size.x, size.y);
     }
 
     @Override
     void handleCollision() {
-        // Don't die.
+        // don't die.
     }
 
-    // Handle space bar key press to toggle firing
-    void keyPressed() {
-        switch(key) {
+    void keyUp() {
+        switch(key) { // key is a global value
+            case 'a':
+            case 'A': left = false; break;
+            case 's':
+            case 'S': down = false; break;
+            case 'd':
+            case 'D': right = false; break;
+            case 'w':
+            case 'W': up = false; break;
+        }
+    }
+    void keyDown() {
+        switch(key) { // key is a global value
             case 'a':
             case 'A': left = true; break;
             case 's':
@@ -51,32 +62,12 @@ class Player extends Sprite {
             case 'w':
             case 'W': up = true; break;
             case ' ':
-                isFiring = true; // Set the flag when space bar is pressed
-                break;
-        }
-    }
-
-    // Handle space bar key release to stop firing
-    void keyReleased() {
-        switch(key) {
-            case 'a':
-            case 'A': left = false; break;
-            case 's':
-            case 'S': down = false; break;
-            case 'd':
-            case 'D': right = false; break;
-            case 'w':
-            case 'W': up = false; break;
-            case ' ':
-                isFiring = false; // Unset the flag when space bar is released
-                break;
+            case 'f': fire(); break;
         }
     }
 
     void fire() {
-        if (isFiring) {
-            PVector aim = new PVector(0, -10); // Upwards direction
-            _SM.spawn(new Bullet(pos.x, pos.y, aim, team));
-        }
+        PVector aim = new PVector(0, -10); // up
+        _SM.spawn(new Bullet(pos.x, pos.y, aim, team));
     }
 }
