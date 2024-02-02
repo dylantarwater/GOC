@@ -33,7 +33,7 @@ class SpriteManager {
         drawEverything();
         
         // Check if it's time to spawn a new shooter
-        if (millis() - lastShooterSpawnTime > 5000 && shootersKilled > 0) {
+        if (millis() - lastShooterSpawnTime > 5000 || shootersKilled > 0) {
             spawnShooter();
             lastShooterSpawnTime = millis();
             shootersKilled--;
