@@ -1,5 +1,6 @@
 class SpriteManager {
     Player player;
+    int shootersKilled = 0;
     
     ArrayList<Sprite> active = new ArrayList<Sprite>();
     ArrayList<Sprite> destroyed = new ArrayList<Sprite>();
@@ -11,7 +12,11 @@ class SpriteManager {
     
     void destroy(Sprite target) {
         destroyed.add(target);
+        if (target instanceof Shooter) {
+            shootersKilled++;
+        }
     }
+
     
     void spawn(Sprite obj) {
         active.add(obj);
@@ -22,7 +27,20 @@ class SpriteManager {
         checkCollisions();    
         bringOutTheDead();
         drawEverything();
+        
+        // Check if it's time to spawn a new shooter
+        if (millis() - lastShooterSpawnTime > 5000 && shootersKilled > 0) {
+            spawnShooter();
+            lastShooterSpawnTime = millis();
+            shootersKilled--;
+        }
     }
+
+    void spawnShooter() {
+        _SM.spawn(new Shooter(random(width), random(height)));
+    }
+
+
     
     void moveEverything() {
         for(int i = active.size() - 1; i >= 0; i--) {
