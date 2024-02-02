@@ -1,6 +1,8 @@
 class SpriteManager {
     Player player;
     int shootersKilled = 0;
+    long lastShooterSpawnTime;
+
     
     ArrayList<Sprite> active = new ArrayList<Sprite>();
     ArrayList<Sprite> destroyed = new ArrayList<Sprite>();
@@ -8,7 +10,9 @@ class SpriteManager {
     SpriteManager() {
         player = new Player(width / 2, height - 100);
         spawn(player);
+        lastShooterSpawnTime = millis(); // Initialize lastShooterSpawnTime
     }
+
     
     void destroy(Sprite target) {
         destroyed.add(target);
