@@ -79,9 +79,10 @@ void display() {
 
 
     void fire() {
-    if (isFiring) {
-        PVector aim = new PVector(0, -10); // up
-        _SM.spawn(new Bullet(pos.x, pos.y, aim, team));
+        if (isFiring) {
+            PVector aim = new PVector(0, -10); // up
+            _SM.spawn(new Bullet(pos.x, pos.y, aim, team));
+        }
     }
 }
 

@@ -32,13 +32,19 @@ class SpriteManager {
         bringOutTheDead();
         drawEverything();
         
-        // Check if it's time to spawn a new shooter
-        if (millis() - lastShooterSpawnTime > 5000 || shootersKilled > 0) {
+        // Check if it's time to spawn a new shooter every 5000 milliseconds
+        if (millis() - lastShooterSpawnTime > 5000) {
             spawnShooter();
             lastShooterSpawnTime = millis();
+        }
+        
+        // Check if a shooter has been killed, and if so, spawn a new one
+        if (shootersKilled > 0) {
+            spawnShooter();
             shootersKilled--;
         }
     }
+
 
     void spawnShooter() {
         _SM.spawn(new Shooter(random(width), random(height)));
